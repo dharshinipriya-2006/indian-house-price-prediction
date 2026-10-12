@@ -32,14 +32,9 @@ except Exception:
     st.stop()
 
 with st.form("house_form"):
-    city = st.selectbox(
-        "City",
-        [
-            "Ahmedabad", "Bangalore", "Chandigarh", "Chennai",
-            "Delhi", "Hyderabad", "Jaipur", "Kolkata",
-            "Mumbai", "Pune"
-        ]
-    )
+    
+city = "Chennai"
+st.write("Location: Chennai")
 
     locality_type = st.selectbox(
         "Locality type",
