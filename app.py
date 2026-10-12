@@ -5,18 +5,18 @@ import joblib
 from pathlib import Path
 
 st.set_page_config(
-    page_title="Indian House Price Prediction",
+    page_title="chennai_house_price_model.pkl",
     page_icon="🏠",
     layout="centered"
 )
 
-st.title("🏠 Indian House Price Prediction")
+st.title("🏠 chennai_house_price_model.pkl")
 st.write(
     "Estimate a property's price using its city, size, "
     "property type, and other details."
 )
 
-MODEL_PATH = Path(__file__).parent / "indian_house_price_model_small.pkl"
+MODEL_PATH = Path(__file__).parent / "chennai_house_price_model.pkl"
 
 @st.cache_resource
 def load_model():
