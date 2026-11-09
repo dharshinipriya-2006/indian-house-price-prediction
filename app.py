@@ -92,46 +92,27 @@ footer {
     visibility: hidden;
 }
 
-/* Main hero section */
+# =========================================================
+# 4. HERO SECTION
+# =========================================================
 
-.hero {
-    background: linear-gradient(120deg, #0b1424, #142c40);
-    padding: 55px 55px;
-    border-radius: 22px;
-    color: white;
-    margin-bottom: 30px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(214,179,106,0.25);
-}
+st.markdown("""
+<div class="hero">
+    <div class="hero-label">CHENNAI REAL ESTATE INTELLIGENCE</div>
 
-.hero-label {
-    color: #d6b36a;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-}
+    <h1>
+        Discover the True Value of Your
+        <span class="hero-highlight">Property.</span>
+    </h1>
 
-.hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 12px;
-}
-
-.hero p {
-    color: #c3cfdb;
-    font-size: 16px;
-    line-height: 1.8;
-    max-width: 650px;
-}
-
-.hero-highlight {
-    color: #18b58f;
-}
+    <p>
+        Smarter property decisions start with better insights.
+        CasaMetric uses machine learning to estimate Chennai
+        property values based on location, property features,
+        and accessibility.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 /* Section headings */
 
