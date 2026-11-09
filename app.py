@@ -1,22 +1,52 @@
 
-import streamlit as st
-import pandas as pd
-import joblib
 import os
+import joblib
+import pandas as pd
+import streamlit as st
+
 
 # =========================================================
 # 1. PAGE CONFIGURATION
 # =========================================================
 
 st.set_page_config(
-    page_title="CasaMetric | Chennai Property Valuation",
+    page_title="CasaMetric | Chennai Property Intelligence",
     page_icon="🏡",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
+
 # =========================================================
-# 2. PREMIUM LUXURY DESIGN
+# 2. MODEL CONFIGURATION
+# =========================================================
+
+MODEL_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "chennai_house_price_model.pkl"
+)
+
+
+@st.cache_resource
+def load_model():
+    return joblib.load(MODEL_PATH)
+
+
+try:
+    model = load_model()
+except FileNotFoundError:
+    st.error(
+        "Model file not found. Please ensure "
+        "'chennai_house_price_model.pkl' is in the same folder as app.py."
+    )
+    st.stop()
+except Exception as error:
+    st.error(f"Unable to load the prediction model: {error}")
+    st.stop()
+
+
+# =========================================================
+# 3. PREMIUM LUXURY DESIGN
 # =========================================================
 
 st.markdown("""
@@ -52,7 +82,7 @@ header[data-testid="stHeader"] {
     padding-bottom: 3rem;
 }
 
-/* Hide default decoration */
+/* Hide default Streamlit elements */
 
 #MainMenu {
     visibility: hidden;
@@ -62,280 +92,205 @@ footer {
     visibility: hidden;
 }
 
-# ---------------- HERO SECTION ----------------
+/* Main hero section */
 
-st.markdown("""
-<div class="hero">
-    <div class="hero-tag">
-        CHENNAI REAL ESTATE INTELLIGENCE
-    </div>
+.hero {
+    background: linear-gradient(120deg, #0b1424, #142c40);
+    padding: 55px 55px;
+    border-radius: 22px;
+    color: white;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(214,179,106,0.25);
+}
 
-    <h1>
-        Discover the Value<br>
-        Behind Your <span>Property.</span>
-    </h1>
+.hero-label {
+    color: #d6b36a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
 
-    <p>
-        Experience intelligent property valuation with CasaMetric.
-        Our machine learning model analyzes your property details
-        to estimate its potential market value in Chennai.
-    </p>
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 12px;
+}
 
-    <div class="hero-bottom">
-        <div class="hero-pill">AI Powered Valuation</div>
-        <div class="hero-pill">Chennai Property Market</div>
-        <div class="hero-pill">Smart Price Insights</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+.hero p {
+    color: #c3cfdb;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 650px;
+}
 
-/* INFORMATION CARDS */
+.hero-highlight {
+    color: #18b58f;
+}
+
+/* Section headings */
+
+.section-heading {
+    color: #0b1424;
+    font-family: 'Playfair Display', serif;
+    font-size: 29px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
+
+.section-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+/* Information cards */
 
 .info-card {
-    background: #ffffff;
-    border: 1px solid #e8e5dc;
+    background: white;
+    border: 1px solid #e8e4d9;
     border-radius: 15px;
-    padding: 19px;
-    min-height: 110px;
-    box-shadow: 0 4px 16px rgba(11,20,36,0.035);
+    padding: 22px;
+    min-height: 115px;
+    box-shadow: 0 4px 15px rgba(11,20,36,0.04);
 }
 
 .info-label {
-    color: #7c8795;
-    font-size: 11px;
+    color: #64748b;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 .info-value {
-    color: #14243a;
-    font-size: 20px;
+    color: #0b1424;
+    font-size: 22px;
     font-weight: 800;
-    margin-top: 10px;
+    margin-top: 9px;
 }
 
-.info-description {
-    color: #929ba7;
-    font-size: 11px;
-    margin-top: 4px;
-}
-
-/* SECTION HEADINGS */
-
-.section-heading {
-    color: #13243b;
-    font-family: 'Playfair Display', serif;
-    font-size: 27px;
-    font-weight: 700;
-    margin-top: 18px;
-    margin-bottom: 5px;
-}
-
-.section-description {
-    color: #89929f;
-    font-size: 13px;
-    margin-bottom: 20px;
-}
-
-.section-label {
-    color: #0d9877;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-/* FORM CONTAINER */
+/* Form container */
 
 div[data-testid="stForm"] {
-    background: #ffffff;
-    border: 1px solid #e7e5dd;
+    background: white;
+    padding: 28px;
     border-radius: 18px;
-    padding: 25px;
-    box-shadow: 0 8px 30px rgba(11,20,36,0.045);
+    border: 1px solid #e8e4d9;
+    box-shadow: 0 5px 20px rgba(11,20,36,0.04);
 }
 
-/* INPUT LABELS */
+/* Input labels */
 
 .stSelectbox label,
 .stNumberInput label {
-    color: #24354b !important;
-    font-weight: 700 !important;
+    color: #26364b !important;
+    font-weight: 600 !important;
     font-size: 13px !important;
 }
 
-/* INPUT BOXES */
+/* Input fields */
 
-div[data-baseweb="select"] > div,
-div[data-baseweb="input"] > div {
-    border-radius: 9px;
-    border-color: #dce2e8;
-    background: #ffffff;
+.stSelectbox div[data-baseweb="select"],
+.stNumberInput input {
+    border-radius: 9px !important;
 }
 
-div[data-baseweb="select"] > div:hover,
-div[data-baseweb="input"] > div:hover {
-    border-color: #0d9877;
-}
+/* Predict button */
 
-/* FORM SUBMIT BUTTON */
-
-div[data-testid="stFormSubmitButton"] button {
-    background: linear-gradient(110deg, #087b64, #13a982);
+.stFormSubmitButton button {
+    background: linear-gradient(100deg, #0d9877, #08775e);
     color: white;
     border: none;
-    border-radius: 11px;
-    height: 54px;
-    font-size: 15px;
-    font-weight: 800;
+    border-radius: 10px;
+    padding: 13px 25px;
+    font-size: 16px;
+    font-weight: 700;
     width: 100%;
-    transition: 0.2s ease;
+    transition: 0.3s;
 }
 
-div[data-testid="stFormSubmitButton"] button:hover {
-    background: linear-gradient(110deg, #066b57, #0d9472);
+.stFormSubmitButton button:hover {
+    background: #075f4c;
     color: white;
     border: none;
 }
 
-/* PREDICTION RESULT */
+/* Prediction result */
 
 .result-card {
-    background:
-        radial-gradient(circle at 90% 10%, rgba(24,181,143,0.19), transparent 35%),
-        linear-gradient(125deg, #091323, #142d43);
-    padding: 38px 25px;
+    background: linear-gradient(120deg, #0b1424, #173b43);
+    padding: 35px;
     border-radius: 20px;
-    text-align: center;
-    margin-top: 30px;
-    border: 1px solid rgba(214,179,106,0.25);
-    box-shadow: 0 12px 35px rgba(11,20,36,0.12);
+    color: white;
+    margin-top: 28px;
+    border: 1px solid rgba(214,179,106,0.35);
 }
 
-.result-eyebrow {
+.result-label {
     color: #d6b36a;
-    font-size: 11px;
-    letter-spacing: 3px;
-    font-weight: 800;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .result-price {
     color: #ffffff;
     font-family: 'Playfair Display', serif;
-    font-size: clamp(34px, 6vw, 48px);
+    font-size: 43px;
     font-weight: 700;
-    margin: 15px 0;
-}
-
-.result-subtitle {
-    color: #b9c9d8;
-    font-size: 13px;
-}
-
-/* RESULT METRICS */
-
-.result-metric {
-    background: #ffffff;
-    border: 1px solid #e7e5dd;
-    border-radius: 14px;
-    padding: 20px;
-    min-height: 105px;
-}
-
-.result-metric-label {
-    color: #87919e;
-    font-size: 11px;
-    letter-spacing: 1px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.result-metric-value {
-    color: #12243b;
-    font-size: 21px;
-    font-weight: 800;
     margin-top: 10px;
 }
 
-/* PROPERTY OVERVIEW */
+.result-description {
+    color: #c3cfdb;
+    font-size: 14px;
+    margin-top: 10px;
+}
 
-.overview-card {
+/* Result metrics */
+
+.metric-card {
     background: white;
-    padding: 23px;
-    border: 1px solid #e7e5dd;
-    border-radius: 15px;
-    margin-top: 18px;
+    border: 1px solid #e8e4d9;
+    padding: 20px;
+    border-radius: 13px;
+    margin-top: 15px;
 }
 
-.overview-title {
-    color: #14243a;
-    font-family: 'Playfair Display', serif;
+.metric-label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.metric-value {
+    color: #0b1424;
     font-size: 21px;
-    font-weight: 700;
-    margin-bottom: 16px;
+    font-weight: 800;
+    margin-top: 7px;
 }
 
-.overview-item {
-    color: #596678;
-    font-size: 13px;
-    padding: 11px 0;
-    border-bottom: 1px solid #edf0f2;
-}
-
-.overview-item b {
-    color: #172b42;
-}
-
-/* FOOTER */
+/* Footer */
 
 .footer {
     text-align: center;
-    padding: 30px 10px 10px 10px;
+    color: #718096;
+    font-size: 12px;
+    padding-top: 35px;
     margin-top: 45px;
-    border-top: 1px solid #e5e4dd;
+    border-top: 1px solid #e5e0d5;
 }
 
-.footer-brand {
-    color: #14243a;
-    font-family: 'Playfair Display', serif;
-    font-size: 19px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.footer-text {
-    color: #8b95a2;
-    font-size: 11px;
-    margin-top: 8px;
-}
-
-div[data-testid="stAlert"] {
-    border-radius: 10px;
-}
-
-/* MOBILE */
-
-@media (max-width: 768px) {
-
-    .block-container {
-        padding: 1rem 1rem 2rem 1rem;
-    }
-
-    .hero {
-        padding: 32px 22px;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-    }
-
-    div[data-testid="stForm"] {
-        padding: 15px;
-    }
-
-    .result-card {
-        padding: 28px 15px;
-    }
+.footer strong {
+    color: #0d9877;
 }
 
 </style>
@@ -343,70 +298,27 @@ div[data-testid="stAlert"] {
 
 
 # =========================================================
-# 3. LOAD EXISTING MACHINE LEARNING MODEL
-# =========================================================
-
-MODEL_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "chennai_house_price_model.pkl"
-)
-
-
-@st.cache_resource
-def load_model():
-    return joblib.load(MODEL_PATH)
-
-
-try:
-    if not os.path.exists(MODEL_PATH):
-        st.error(
-            "Model file not found. Please make sure "
-            "chennai_house_price_model.pkl is in the same "
-            "folder as app.py."
-        )
-        st.stop()
-
-    model = load_model()
-
-except Exception as e:
-    st.error(f"Unable to load prediction model: {e}")
-    st.stop()
-
-
-# =========================================================
-# 4. BRAND HEADER
+# 4. HERO SECTION
 # =========================================================
 
 st.markdown("""
 <div class="hero">
+    <div class="hero-label">CHENNAI REAL ESTATE INTELLIGENCE</div>
 
-    <div class="hero-tag">
-        CHENNAI REAL ESTATE INTELLIGENCE
-    </div>
-
-    <h1>
-        Discover the Value<br>
-        Behind Your <span>Property.</span>
-    </h1>
+    <h1>Find the True Value of Your <span class="hero-highlight">Property.</span></h1>
 
     <p>
-        Experience intelligent property valuation with CasaMetric.
-        Our machine learning model analyzes your property details
-        to estimate its potential market value in Chennai.
+        Make smarter property decisions with CasaMetric.
+        Our machine learning-powered platform estimates
+        Chennai property prices using important property
+        characteristics and location factors.
     </p>
-
-    <div class="hero-bottom">
-        <div class="hero-pill">✦ AI Powered Valuation</div>
-        <div class="hero-pill">⌖ Chennai Property Market</div>
-        <div class="hero-pill">◈ Smart Price Insights</div>
-    </div>
-
 </div>
 """, unsafe_allow_html=True)
 
 
 # =========================================================
-# 5. PLATFORM INFORMATION
+# 5. INFORMATION CARDS
 # =========================================================
 
 col1, col2, col3 = st.columns(3)
@@ -414,465 +326,342 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown("""
     <div class="info-card">
-        <div class="info-label">Market Coverage</div>
-        <div class="info-value">Chennai</div>
-        <div class="info-description">Chennai real estate estimation</div>
+        <div class="info-label">LOCATION</div>
+        <div class="info-value">Chennai, India</div>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
     <div class="info-card">
-        <div class="info-label">Technology</div>
+        <div class="info-label">TECHNOLOGY</div>
         <div class="info-value">Machine Learning</div>
-        <div class="info-description">Data-driven property valuation</div>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     st.markdown("""
     <div class="info-card">
-        <div class="info-label">Platform</div>
-        <div class="info-value">CasaMetric</div>
-        <div class="info-description">Intelligent property insights</div>
+        <div class="info-label">PLATFORM</div>
+        <div class="info-value">CasaMetric AI</div>
     </div>
     """, unsafe_allow_html=True)
 
 
 # =========================================================
-# 6. PROPERTY FORM HEADING
+# 6. PROPERTY INPUT SECTION
 # =========================================================
 
 st.markdown("""
-<div class="section-label">PROPERTY ESTIMATOR</div>
-<div class="section-heading">Calculate Your Property Value</div>
-<div class="section-description">
-    Enter the property information below to receive your estimated valuation.
+<div class="section-heading">Property Details</div>
+<div class="section-subtitle">
+Enter your property information to receive an estimated market value.
 </div>
 """, unsafe_allow_html=True)
 
 
-# =========================================================
-# 7. PROPERTY INPUT FORM
-# =========================================================
-
 with st.form("property_form"):
 
-    # BASIC DETAILS
+    st.markdown("#### 01 — Location & Property Type")
 
-    st.markdown("### 📍 Property Details")
+    col1, col2 = st.columns(2)
 
-    c1, c2 = st.columns(2)
+    with col1:
+        city = "Chennai"
 
-    with c1:
         locality_type = st.selectbox(
-            "Locality Type",
+            "Locality Category",
             ["Affordable", "Mid-Range", "Premium"]
         )
 
         property_type = st.selectbox(
             "Property Type",
-            [
-                "Apartment",
-                "Independent House",
-                "Villa",
-                "Builder Floor"
-            ]
+            ["Apartment", "Independent House", "Villa", "Builder Floor"]
         )
 
-    with c2:
+    with col2:
+        furnishing_status = st.selectbox(
+            "Furnishing Status",
+            ["Furnished", "Semi-Furnished", "Unfurnished"]
+        )
+
         bhk = st.number_input(
-            "Bedrooms (BHK)",
+            "Number of Bedrooms (BHK)",
             min_value=1,
-            max_value=10,
-            value=2
+            max_value=20,
+            value=2,
+            step=1
         )
 
+    st.markdown("---")
+    st.markdown("#### 02 — Area & Structure")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
         bathrooms = st.number_input(
-            "Bathrooms",
+            "Number of Bathrooms",
             min_value=1,
-            max_value=10,
-            value=2
+            max_value=20,
+            value=2,
+            step=1
         )
 
-    st.divider()
-
-    # AREA DETAILS
-
-    st.markdown("### 📐 Area & Measurements")
-
-    c1, c2 = st.columns(2)
-
-    with c1:
         super_area = st.number_input(
-            "Super Area (sq. ft.)",
-            min_value=100.0,
-            max_value=50000.0,
-            value=1000.0,
-            step=50.0
+            "Super Built-up Area (Sq.Ft.)",
+            min_value=100,
+            max_value=50000,
+            value=1200,
+            step=50
         )
 
-    with c2:
+    with col2:
         carpet_area = st.number_input(
-            "Carpet Area (sq. ft.)",
-            min_value=50.0,
-            max_value=50000.0,
-            value=800.0,
-            step=50.0
+            "Carpet Area (Sq.Ft.)",
+            min_value=100,
+            max_value=50000,
+            value=1000,
+            step=50
         )
 
-    st.divider()
-
-    # BUILDING DETAILS
-
-    st.markdown("### 🏢 Building Specifications")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        floor_number = st.number_input(
-            "Floor Number",
+        age_of_property = st.number_input(
+            "Property Age (Years)",
             min_value=0,
             max_value=100,
-            value=1
+            value=5,
+            step=1
         )
 
-    with c2:
+    col1, col2 = st.columns(2)
+
+    with col1:
+        floor_number = st.number_input(
+            "Current Floor Number",
+            min_value=0,
+            max_value=100,
+            value=2,
+            step=1
+        )
+
+    with col2:
         total_floors = st.number_input(
-            "Total Floors",
+            "Total Number of Floors",
             min_value=1,
             max_value=100,
-            value=5
+            value=5,
+            step=1
         )
 
-    with c3:
-        age = st.number_input(
-            "Property Age (years)",
-            min_value=0,
-            max_value=150,
-            value=5
-        )
+    st.markdown("---")
+    st.markdown("#### 03 — Amenities & Accessibility")
 
-    furnishing = st.selectbox(
-        "Furnishing Status",
-        [
-            "Furnished",
-            "Semi-Furnished",
-            "Unfurnished"
-        ]
-    )
+    col1, col2, col3 = st.columns(3)
 
-    st.divider()
-
-    # AMENITIES
-
-    st.markdown("### ✨ Property Amenities")
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
+    with col1:
         parking = st.selectbox(
-            "🚗 Parking",
-            [0, 1],
-            format_func=lambda x:
-                "Available" if x == 1 else "Not Available"
+            "Parking Available",
+            ["Yes", "No"]
         )
 
-    with c2:
-        lift = st.selectbox(
-            "🛗 Lift",
-            [0, 1],
-            format_func=lambda x:
-                "Available" if x == 1 else "Not Available"
+    with col2:
+        lift_available = st.selectbox(
+            "Lift Available",
+            ["Yes", "No"]
         )
 
-    with c3:
-        gated = st.selectbox(
-            "🔐 Gated Community",
-            [0, 1],
-            format_func=lambda x:
-                "Yes" if x == 1 else "No"
+    with col3:
+        gated_community = st.selectbox(
+            "Gated Community",
+            ["Yes", "No"]
         )
 
-    st.divider()
+    col1, col2 = st.columns(2)
 
-    # LOCATION DETAILS
-
-    st.markdown("### 🚇 Location & Connectivity")
-
-    c1, c2 = st.columns(2)
-
-    with c1:
-        metro_distance = st.number_input(
-            "Distance to Metro (km)",
+    with col1:
+        distance_to_metro = st.number_input(
+            "Distance to Metro (Km)",
             min_value=0.0,
             max_value=100.0,
             value=2.0,
             step=0.5
         )
 
-    with c2:
-        center_distance = st.number_input(
-            "Distance to City Center (km)",
+    with col2:
+        distance_to_city_center = st.number_input(
+            "Distance to City Center (Km)",
             min_value=0.0,
             max_value=100.0,
             value=5.0,
             step=0.5
         )
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("---")
 
-    predict_button = st.form_submit_button(
-        "✦  Calculate Property Valuation"
+    submitted = st.form_submit_button(
+        "Estimate Property Value"
     )
 
 
 # =========================================================
-# 8. MACHINE LEARNING PREDICTION
+# 7. PREDICTION LOGIC
 # =========================================================
 
-if predict_button:
-
-    # INPUT VALIDATION
+if submitted:
 
     if carpet_area > super_area:
-
         st.error(
-            "Carpet area cannot be greater than super area."
+            "Carpet area cannot be greater than the super built-up area. "
+            "Please correct the area values."
         )
 
     elif floor_number > total_floors:
-
         st.error(
-            "Floor number cannot exceed total floors."
+            "Current floor number cannot exceed the total number of floors."
         )
 
     else:
 
-        # EXACT SAME 16 FEATURES AS YOUR EXISTING MODEL
+        # Convert Yes/No values into the model's numeric format
+
+        parking_value = 1 if parking == "Yes" else 0
+
+        lift_value = 1 if lift_available == "Yes" else 0
+
+        gated_value = 1 if gated_community == "Yes" else 0
+
+
+        # Create input DataFrame using the exact original model features
 
         input_data = pd.DataFrame([{
-
-            "City": "Chennai",
-
+            "City": city,
             "Locality_Type": locality_type,
-
             "Property_Type": property_type,
-
             "BHK": bhk,
-
             "Bathrooms": bathrooms,
-
             "Super_Area_SqFt": super_area,
-
             "Carpet_Area_SqFt": carpet_area,
-
             "Floor_Number": floor_number,
-
             "Total_Floors": total_floors,
-
-            "Age_of_Property": age,
-
-            "Furnishing_Status": furnishing,
-
-            "Parking": parking,
-
-            "Lift_Available": lift,
-
-            "Gated_Community": gated,
-
-            "Distance_to_Metro_km": metro_distance,
-
-            "Distance_to_City_Center_km": center_distance
-
+            "Age_of_Property": age_of_property,
+            "Furnishing_Status": furnishing_status,
+            "Parking": parking_value,
+            "Lift_Available": lift_value,
+            "Gated_Community": gated_value,
+            "Distance_to_Metro_km": distance_to_metro,
+            "Distance_to_City_Center_km": distance_to_city_center
         }])
+
 
         try:
 
-            # PREDICT USING EXISTING TRAINED MODEL
+            # Predict property price
 
-            prediction = float(
-                model.predict(input_data)[0]
-            )
+            prediction = float(model.predict(input_data)[0])
 
-            if not pd.notna(prediction) or prediction < 0:
+            # Display prediction
 
+            if prediction <= 0:
                 st.error(
-                    "The model returned an invalid property price."
+                    "The model returned an invalid price. "
+                    "Please check the property details."
                 )
 
             else:
-
-                # CALCULATE PRICE PER SQ FT
 
                 price_per_sqft = (
                     prediction * 100000 / super_area
                 )
 
-                # MAIN RESULT
-
                 st.markdown(f"""
                 <div class="result-card">
-
-                    <div class="result-eyebrow">
-                        YOUR PROPERTY VALUATION
+                    <div class="result-label">
+                        YOUR ESTIMATED PROPERTY VALUE
                     </div>
 
                     <div class="result-price">
                         ₹ {prediction:,.2f} Lakhs
                     </div>
 
-                    <div class="result-subtitle">
-                        Estimated property value for your Chennai property
+                    <div class="result-description">
+                        Estimated market value based on your property details
+                        and the trained machine learning model.
                     </div>
-
                 </div>
                 """, unsafe_allow_html=True)
 
-                # RESULT METRICS
 
-                st.markdown("""
-                <div class="section-label">
-                    VALUATION INSIGHTS
-                </div>
-                <div class="section-heading">
-                    Your Property at a Glance
-                </div>
-                """, unsafe_allow_html=True)
+                # Additional result metrics
 
-                c1, c2, c3 = st.columns(3)
+                col1, col2, col3 = st.columns(3)
 
-                with c1:
+                with col1:
                     st.markdown(f"""
-                    <div class="result-metric">
-                        <div class="result-metric-label">
-                            Estimated Price
+                    <div class="metric-card">
+                        <div class="metric-label">
+                            PRICE PER SQ.FT.
                         </div>
-                        <div class="result-metric-value">
-                            ₹{prediction:,.2f} L
+                        <div class="metric-value">
+                            ₹ {price_per_sqft:,.0f}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-                with c2:
+                with col2:
                     st.markdown(f"""
-                    <div class="result-metric">
-                        <div class="result-metric-label">
-                            Price per Sq. Ft.
+                    <div class="metric-card">
+                        <div class="metric-label">
+                            PROPERTY AREA
                         </div>
-                        <div class="result-metric-value">
-                            ₹{price_per_sqft:,.0f}
+                        <div class="metric-value">
+                            {super_area:,.0f} Sq.Ft.
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-                with c3:
+                with col3:
                     st.markdown(f"""
-                    <div class="result-metric">
-                        <div class="result-metric-label">
-                            Property Area
+                    <div class="metric-card">
+                        <div class="metric-label">
+                            PROPERTY TYPE
                         </div>
-                        <div class="result-metric-value">
-                            {super_area:,.0f} sq. ft.
+                        <div class="metric-value">
+                            {property_type}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-                # PROPERTY OVERVIEW
-
-                st.markdown(f"""
-                <div class="overview-card">
-
-                    <div class="overview-title">
-                        🏡 Property Overview
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Property Type:</b> {property_type}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Locality Category:</b> {locality_type}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Bedrooms:</b> {bhk} BHK
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Bathrooms:</b> {bathrooms}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Furnishing:</b> {furnishing}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Property Age:</b> {age} years
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Parking:</b> {"Available" if parking else "Not Available"}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Lift:</b> {"Available" if lift else "Not Available"}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Gated Community:</b> {"Yes" if gated else "No"}
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Distance to Metro:</b> {metro_distance} km
-                    </div>
-
-                    <div class="overview-item">
-                        <b>Distance to City Center:</b> {center_distance} km
-                    </div>
-
-                </div>
-                """, unsafe_allow_html=True)
 
                 st.success(
-                    "Your property valuation has been completed successfully!"
+                    "Property price estimation completed successfully."
                 )
 
                 st.info(
-                    "Disclaimer: This is a machine-learning-based estimate. "
-                    "It is not an official market valuation or a guaranteed "
-                    "selling price."
+                    "Note: This is an ML-based estimated value, "
+                    "not an official property valuation or guaranteed selling price."
                 )
 
-        except Exception as e:
-
+        except Exception as error:
             st.error(
-                f"Prediction failed: {e}"
+                f"Prediction failed. Please check the input data and model compatibility. "
+                f"Error: {error}"
             )
 
 
 # =========================================================
-# 9. FOOTER
+# 8. FOOTER
 # =========================================================
 
 st.markdown("""
 <div class="footer">
+    <strong>CasaMetric</strong> — Chennai Property Intelligence
 
-    <div class="footer-brand">
-        CASAMETRIC
-    </div>
+    <br><br>
 
-    <div class="footer-text">
-        INTELLIGENT PROPERTY VALUATION · CHENNAI
-    </div>
+    Powered by Machine Learning | Built with Python & Streamlit
 
-    <div class="footer-text">
-        Developed using Python, Streamlit and Machine Learning
-    </div>
+    <br><br>
 
-    <div class="footer-text">
-        © 2026 CasaMetric. All rights reserved.
-    </div>
-
+    © 2026 CasaMetric. For educational and estimation purposes only.
 </div>
 """, unsafe_allow_html=True)
+
