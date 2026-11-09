@@ -44,7 +44,6 @@ except Exception as error:
     st.error(f"Unable to load the prediction model: {error}")
     st.stop()
 
-
 # =========================================================
 # 3. PREMIUM LUXURY DESIGN
 # =========================================================
@@ -91,6 +90,201 @@ header[data-testid="stHeader"] {
 footer {
     visibility: hidden;
 }
+
+/* Hero section */
+
+.hero {
+    background: linear-gradient(120deg, #0b1424, #142c40);
+    padding: 55px;
+    border-radius: 22px;
+    color: white;
+    margin-bottom: 30px;
+    border: 1px solid rgba(214,179,106,0.25);
+}
+
+.hero-label {
+    color: #d6b36a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #c3cfdb;
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 650px;
+}
+
+.hero-highlight {
+    color: #18b58f;
+}
+
+/* Section headings */
+
+.section-heading {
+    color: #0b1424;
+    font-family: 'Playfair Display', serif;
+    font-size: 29px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 6px;
+}
+
+.section-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+/* Information cards */
+
+.info-card {
+    background: white;
+    border: 1px solid #e8e4d9;
+    border-radius: 15px;
+    padding: 22px;
+    min-height: 115px;
+    box-shadow: 0 4px 15px rgba(11,20,36,0.04);
+}
+
+.info-label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.info-value {
+    color: #0b1424;
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 9px;
+}
+
+/* Form */
+
+div[data-testid="stForm"] {
+    background: white;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid #e8e4d9;
+    box-shadow: 0 5px 20px rgba(11,20,36,0.04);
+}
+
+.stSelectbox label,
+.stNumberInput label {
+    color: #26364b !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+.stSelectbox div[data-baseweb="select"],
+.stNumberInput input {
+    border-radius: 9px !important;
+}
+
+/* Predict button */
+
+.stFormSubmitButton button {
+    background: linear-gradient(100deg, #0d9877, #08775e);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 25px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.stFormSubmitButton button:hover {
+    background: #075f4c;
+    color: white;
+}
+
+/* Prediction result */
+
+.result-card {
+    background: linear-gradient(120deg, #0b1424, #173b43);
+    padding: 35px;
+    border-radius: 20px;
+    color: white;
+    margin-top: 28px;
+    border: 1px solid rgba(214,179,106,0.35);
+}
+
+.result-label {
+    color: #d6b36a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.result-price {
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 43px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.result-description {
+    color: #c3cfdb;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Result metrics */
+
+.metric-card {
+    background: white;
+    border: 1px solid #e8e4d9;
+    padding: 20px;
+    border-radius: 13px;
+    margin-top: 15px;
+}
+
+.metric-label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.metric-value {
+    color: #0b1424;
+    font-size: 21px;
+    font-weight: 800;
+    margin-top: 7px;
+}
+
+/* Footer */
+
+.footer {
+    text-align: center;
+    color: #718096;
+    font-size: 12px;
+    padding-top: 35px;
+    margin-top: 45px;
+    border-top: 1px solid #e5e0d5;
+}
+
+.footer strong {
+    color: #0d9877;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 
 # =========================================================
 # 4. HERO SECTION
