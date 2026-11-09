@@ -62,65 +62,32 @@ footer {
     visibility: hidden;
 }
 
-/* HERO SECTION */
+# ---------------- HERO SECTION ----------------
 
-.hero {
-    background:
-        radial-gradient(circle at 90% 10%, rgba(24,181,143,0.20), transparent 32%),
-        linear-gradient(125deg, #091323, #132943 65%, #173b43);
-    padding: 55px 45px;
-    border-radius: 22px;
-    color: white;
-    border: 1px solid rgba(214,179,106,0.22);
-    margin-bottom: 30px;
-    position: relative;
-    overflow: hidden;
-}
+st.markdown("""
+<div class="hero">
+    <div class="hero-tag">
+        CHENNAI REAL ESTATE INTELLIGENCE
+    </div>
 
-.hero-tag {
-    display: inline-block;
-    color: #d6b36a;
-    font-size: 11px;
-    letter-spacing: 3px;
-    font-weight: 800;
-    margin-bottom: 15px;
-}
+    <h1>
+        Discover the Value<br>
+        Behind Your <span>Property.</span>
+    </h1>
 
-.hero h1 {
-    color: #ffffff;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 48px);
-    line-height: 1.2;
-    font-weight: 700;
-    margin: 5px 0 15px 0;
-}
+    <p>
+        Experience intelligent property valuation with CasaMetric.
+        Our machine learning model analyzes your property details
+        to estimate its potential market value in Chennai.
+    </p>
 
-.hero h1 span {
-    color: #37c59e;
-}
-
-.hero p {
-    color: #c3cfdb;
-    font-size: 15px;
-    line-height: 1.8;
-    max-width: 650px;
-}
-
-.hero-bottom {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 25px;
-}
-
-.hero-pill {
-    padding: 8px 14px;
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 30px;
-    color: #e4eaf0;
-    font-size: 12px;
-    background: rgba(255,255,255,0.05);
-}
+    <div class="hero-bottom">
+        <div class="hero-pill">AI Powered Valuation</div>
+        <div class="hero-pill">Chennai Property Market</div>
+        <div class="hero-pill">Smart Price Insights</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 /* INFORMATION CARDS */
 
